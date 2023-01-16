@@ -24,7 +24,7 @@ pink = (255, 204, 255)
 hot_pink = (255, 105, 180)
 
 # Font settings
-unicorn_font = pygame.font.Font("/Users/anicka/Desktop/pyladies/pygame/pygame_1/fonts/unifont.ttf", 30)
+unicorn_font = pygame.font.Font("font/unifont.ttf", 30)
 # Text
 unicorn_text = unicorn_font.render(" Crazy Unicorn Game ", True, hot_pink)
 unicorn_text_rect = unicorn_text.get_rect()
@@ -35,21 +35,23 @@ score_text_rect = score_text.get_rect()
 score_text_rect.x = 10
 score_text_rect.y = 10
 
+
+media_dir = "media/"
 # Background music settings
-pygame.mixer.music.load("/Users/anicka/Desktop/pyladies/pygame/pygame_1/media/background.wav")
+pygame.mixer.music.load(media_dir + "background.wav")
 # Play background music
 pygame.mixer.music.play(-1, 0.0)
 
 # Upload sounds
-sound_pick = pygame.mixer.Sound("/Users/anicka/Desktop/pyladies/pygame/pygame_1/media/pick.wav")
+sound_pick = pygame.mixer.Sound(media_dir + "pick.wav")
 sound_pick.set_volume(1.5)
 
 # Pictures
-unicorn_image = pygame.image.load("/Users/anicka/Desktop/pyladies/pygame/pygame_1/img/crazy.png")
+unicorn_image = pygame.image.load("img/crazy.png")
 unicorn_image_rect = unicorn_image.get_rect()
 unicorn_image_rect.center = (width//2, height//2)
 
-kid_image = pygame.image.load("/Users/anicka/Desktop/pyladies/pygame/pygame_1/img/kid.png")
+kid_image = pygame.image.load("img/kid.png")
 kid_image_rect = kid_image.get_rect()
 kid_image_rect.center = (100, height//2)
 
