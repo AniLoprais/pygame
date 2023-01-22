@@ -8,7 +8,7 @@ pygame.init()
 width = 1200
 height = 700
 screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("BLOODY UNICORN - SCARY GAME")
+pygame.display.set_caption("BLOODY UNICORN - HUNTING KIDS")
 
 # Basic settings
 fps = 60  # Frame per second
@@ -30,9 +30,16 @@ class Game:
         # Background music
         pygame.mixer.music.load("/Users/anicka/Desktop/pyladies/pygame/Scary_Game/media/music.wav") # The path to music
         pygame.mixer.music.play(-1, 0.0)    # The music will play endlessly from the zero second
+        pygame.mixer.music.set_volume(0.30)
 
         # Fonts
         self.scarry_font = pygame.font.Font("/Users/anicka/Desktop/pyladies/pygame/Scary_Game/font/font.ttf", 28)
+        self.scarry_font_bigger = pygame.font.Font("/Users/anicka/Desktop/pyladies/pygame/Scary_Game/font/font.ttf", 55)
+
+        # Background image
+        self.background_image = pygame.image.load("/Users/anicka/Desktop/pyladies/pygame/Scary_Game/img/dark_forest.jpg")
+        self.background_image_rect = self.background_image.get_rect()
+        self.background_image_rect.topleft = (0, 0)
 
         # Images
         zombie_image = pygame.image.load("/Users/anicka/Desktop/pyladies/pygame/Scary_Game/img/zombie.png")
@@ -57,7 +64,7 @@ class Game:
         if self.slow_down_cycle == fps:
             self.round_time += 1    # Raising the time
             self.slow_down_cycle = 0
-            print(self.round_time)
+
 
         # Check collision
         self.check_collision()
@@ -203,14 +210,14 @@ class Game:
         black = (0, 0, 0)
 
         # Main text for pause
-        main_text_create = self.scarry_font.render(main_text, True, red)
+        main_text_create = self.scarry_font_bigger.render(main_text, True, red)
         main_text_create_rect = main_text_create.get_rect()
-        main_text_create_rect.center = (width//2, height//2)
+        main_text_create_rect.center = (width//2, height//2 - 35)
 
         # Subheading for pause
-        sub_heading_create = self.scarry_font.render(sub_heading, True, red)
+        sub_heading_create = self.scarry_font_bigger.render(sub_heading, True, red)
         sub_heading_create_rect = sub_heading_create.get_rect()
-        sub_heading_create_rect.center = (width//2, height//2 + 60)
+        sub_heading_create_rect.center = (width//2, height//2 + 45)
 
         # Display main text and subheading text
         screen.fill(black)
@@ -231,7 +238,16 @@ class Game:
 
     def reset_game(self):
         """ Reset the game to its default state """
-        pass
+        self.score = 0
+        self.round_number = 0
+
+        self.our_player.lives = 5
+        self.our_player.enter_safe_zone = 3
+        self.start_new_round()
+
+        # # Starting music from the beginning
+        # pygame.mixer.music.play(-1, 0.0)
+
 
 
 class Player(pygame.sprite.Sprite):
@@ -248,9 +264,9 @@ class Player(pygame.sprite.Sprite):
         self.speed = 8
 
         self.catch_sound = pygame.mixer.Sound("/Users/anicka/Desktop/pyladies/pygame/Scary_Game/media/scream.wav")
-        self.catch_sound.set_volume(4)
+        self.catch_sound.set_volume(0.3)
         self.wrong_sound = pygame.mixer.Sound("/Users/anicka/Desktop/pyladies/pygame/Scary_Game/media/fail.wav")
-        self.catch_sound.set_volume(3)
+        self.wrong_sound.set_volume(0.2)
 
     def update(self):
         """ Code called over and over again """
@@ -345,7 +361,8 @@ while lets_continue:
 
 
     # Fill the screen with the background
-    screen.fill((0, 0, 0))
+    # screen.fill((0, 0, 0))
+    screen.blit(my_game.background_image, my_game.background_image_rect)
 
     # Updating group of kids
     kids_group.draw(screen)
