@@ -64,7 +64,7 @@ class Game:
 
 
     def draw(self):
-        """ Drawing everything in the game - texts, wanted scary childs """
+        """ Drawing everything in the game - texts, frame scree, blitting, collision """
         red = (225, 6, 0)
         green = pygame.Color("#4ADEDE")
         gray = pygame.Color("#999DA0")
@@ -110,7 +110,7 @@ class Game:
         # Image of hunting kid
         screen.blit(self.kid_catch_image, self.kid_catch_image_rect)
 
-        # Shapes
+        # Shape
         # The frame game screen - where kids can move around
         pygame.draw.rect(screen, colors[self.kid_catch_type], (0, 100, width, height - 200), 4)
 
@@ -131,7 +131,7 @@ class Game:
                     self.choose_new_target()
                 else:
                     # The round is complete, we have killed all the kids
-                    self.our_player.reset() # The player appears on the starting position
+                    self.our_player.reset_game() # The player appears on the starting position
                     self.start_new_round()  # Starting a new round
             else:
                 self.our_player.wrong_sound.play()
@@ -146,13 +146,51 @@ class Game:
     def start_new_round(self):
         """ Start a new round - with more kids on the playing surface """
         # The player gets a bonus, according to the speed of the round completed
-        self.score += int(100 (self.round_number / (1 + self.round_time)))
+        self.score += int(100 * (self.round_number / (1 + self.round_time)))
 
+        # Reset values
+        self.round_time = 0
+        self.slow_down_cycle = 0
+        self.round_number += 1
+        self.our_player.enter_safe_zone += 1
+
+        # Clean up a group of kids so that the group can be filled with a new number of kids
+        for deleted_kid in self.group_of_kids:
+            self.group_of_kids.remove(deleted_kid)
+
+        for i in range(self.round_number):
+            # Creating the first kid
+            self.group_of_kids.add(
+            Kids(random.randint(0, width - 64),
+            random.randint(100, height - 164),
+            self.kids_images[0], 0)
+            )
+
+            self.group_of_kids.add(
+            Kids(random.randint(0, width - 64),
+            random.randint(100, height - 164),
+            self.kids_images[1], 1)
+            )
+
+            self.group_of_kids.add(
+            Kids(random.randint(0, width - 64),
+            random.randint(100, height - 164),
+            self.kids_images[2], 2)
+            )
+
+            self.group_of_kids.add(
+            Kids(random.randint(0, width - 64),
+            random.randint(100, height - 164),
+            self.kids_images[3], 3)
+            )
+
+            self.choose_new_target()
 
     def choose_new_target(self):
         """ Chooses a new kid to catch """
-        pass
-
+        new_kid_to_catch = random.choice(self.group_of_kids.sprites())
+        self.kid_catch_type = new_kid_to_catch.type
+        self.kid_catch_image = new_kid_to_catch.image
 
     def pause_game(self, heading, sub_heading):
         """ Game pause - pause before starting a new game, at the beginning when starting """
@@ -242,16 +280,16 @@ class Kids(pygame.sprite.Sprite):
 
 # Group of kids
 kids_group = pygame.sprite.Group()
-# Test kids
-# Types of kids: 0 = zombie, 1 = grim_reaper, 2 = witch, 3 = shaman
-one_kid = Kids(500, 500, pygame.image.load("/Users/anicka/Desktop/pyladies/pygame/Scary_Game/img/zombie.png"), 0)
-kids_group.add(one_kid)
-one_kid = Kids(500, 500, pygame.image.load("/Users/anicka/Desktop/pyladies/pygame/Scary_Game/img/grim_reaper.png"), 1)
-kids_group.add(one_kid)
-one_kid = Kids(500, 500, pygame.image.load("/Users/anicka/Desktop/pyladies/pygame/Scary_Game/img/witch.png"), 2)
-kids_group.add(one_kid)
-one_kid = Kids(500, 500, pygame.image.load("/Users/anicka/Desktop/pyladies/pygame/Scary_Game/img/shaman.png"), 3)
-kids_group.add(one_kid)
+# # Test kids
+# # Types of kids: 0 = zombie, 1 = grim_reaper, 2 = witch, 3 = shaman
+# one_kid = Kids(500, 500, pygame.image.load("/Users/anicka/Desktop/pyladies/pygame/Scary_Game/img/zombie.png"), 0)
+# kids_group.add(one_kid)
+# one_kid = Kids(500, 500, pygame.image.load("/Users/anicka/Desktop/pyladies/pygame/Scary_Game/img/grim_reaper.png"), 1)
+# kids_group.add(one_kid)
+# one_kid = Kids(500, 500, pygame.image.load("/Users/anicka/Desktop/pyladies/pygame/Scary_Game/img/witch.png"), 2)
+# kids_group.add(one_kid)
+# one_kid = Kids(500, 500, pygame.image.load("/Users/anicka/Desktop/pyladies/pygame/Scary_Game/img/shaman.png"), 3)
+# kids_group.add(one_kid)
 
 # Group of player
 player_group = pygame.sprite.Group()
@@ -260,7 +298,7 @@ player_group.add(one_player)
 
 # Object Game
 my_game = Game(one_player, kids_group)
-
+my_game.start_new_round()
 
 # The main game cycle
 lets_continue = True
@@ -280,8 +318,8 @@ while lets_continue:
     kids_group.draw(screen)
     kids_group.update()
     # Updating group of players (one player)
-    player_group.draw(screen)
     player_group.update()
+    player_group.draw(screen)
     # Update the object create according to the class Game
     my_game.update()
     my_game.draw()
