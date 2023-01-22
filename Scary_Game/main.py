@@ -138,9 +138,10 @@ class Game:
                 self.our_player.lives -= 1
                 # Check - the number of lives
                 if self.our_player.lives <= 0:
-                    self.pause_game(f"ACHIEVED SCORE: {self.score}", "IF YOU WANT TO PLAY AGAIN PRESS ENTER")
+                    self.pause_game(f"FINAL SCORE: {self.score}", "IF YOU WANT TO PLAY AGAIN PRESS ENTER")
                     self.reset_game()
                 self.our_player.reset_game()
+
 
 
     def start_new_round(self):
@@ -192,10 +193,41 @@ class Game:
         self.kid_catch_type = new_kid_to_catch.type
         self.kid_catch_image = new_kid_to_catch.image
 
-    def pause_game(self, heading, sub_heading):
+    def pause_game(self, main_text, sub_heading):
         """ Game pause - pause before starting a new game, at the beginning when starting """
-        pass
 
+        global lets_continue
+
+        # Color settings
+        red = (225, 6, 0)
+        black = (0, 0, 0)
+
+        # Main text for pause
+        main_text_create = self.scarry_font.render(main_text, True, red)
+        main_text_create_rect = main_text_create.get_rect()
+        main_text_create_rect.center = (width//2, height//2)
+
+        # Subheading for pause
+        sub_heading_create = self.scarry_font.render(sub_heading, True, red)
+        sub_heading_create_rect = sub_heading_create.get_rect()
+        sub_heading_create_rect.center = (width//2, height//2 + 60)
+
+        # Display main text and subheading text
+        screen.fill(black)
+        screen.blit(main_text_create, main_text_create_rect)
+        screen.blit(sub_heading_create, sub_heading_create_rect)
+        pygame.display.update()
+
+        # Stopping the game
+        paused = True
+        while paused:
+            for one_event in pygame.event.get():
+                if one_event.type == pygame.KEYDOWN:
+                    if one_event.key == pygame.K_RETURN:
+                        paused = False
+                if one_event.type == pygame.QUIT:
+                    paused = False
+                    lets_continue = False
 
     def reset_game(self):
         """ Reset the game to its default state """
@@ -298,6 +330,7 @@ player_group.add(one_player)
 
 # Object Game
 my_game = Game(one_player, kids_group)
+my_game.pause_game("BLOODY UNICORN - HUNTING KIDS", "PRESS ENTER TO START THE GAME")
 my_game.start_new_round()
 
 # The main game cycle
