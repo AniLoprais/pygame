@@ -50,7 +50,7 @@ coll = COLLECT(
 )
 app = BUNDLE(
     coll,
-    name='crazy_unicorn.app',
-    icon='img/crazy.png',
+    name='CRAZY UNICORN.app',
+    icon='img/CRAZY UNICORN.png',
     bundle_identifier=None,
 )

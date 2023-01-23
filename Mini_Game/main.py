@@ -82,8 +82,9 @@ while lets_continue:
         score += 1
         sound_pick.play()
 
-    # Fill the screen with the background color
-    screen.fill(blue)
+    # Background image
+    background_image = pygame.image.load("img/BG.jpg")
+    screen.blit(background_image, (0, 0))
 
     # Shape
     pygame.draw.line(screen, hot_pink, (0, 50), (width, 50), 2)
