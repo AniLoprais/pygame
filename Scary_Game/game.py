@@ -139,7 +139,7 @@ class Game:
                 # Check - the number of lives
                 if self.our_player.lives <= 0:
                     self.pause_game(f"FINAL SCORE: {self.score}", "IF YOU WANT TO PLAY AGAIN PRESS ENTER")
-                    # self.reset_game()
+                    self.reset_game()
                 self.our_player.reset_game()
 
 
