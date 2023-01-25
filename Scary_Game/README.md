@@ -8,7 +8,7 @@
 | How to play? |
 | ------------ |
 <ul>
-<li>Press enter for start the game. :trophy:</li>
+<li>Press enter to start the game. :trophy:</li>
 <li>You will appear in the safe zone. :star:</li>
 <li>Use the arrow keys or the w, a, s, d keys to control the unicorn. :video_game:</li>
 <li>Hunt the kid that appears at the top of the information zone. :dart:</li>
