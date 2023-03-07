@@ -1,3 +1,6 @@
+| For information on how to run the game, see the requirements.txt file |
+| --------------------------------------------------------------------- |
+
 ![game](rm_img/start.png)
 
 <div align="center">You are the player!</div>
