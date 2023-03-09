@@ -1,4 +1,5 @@
-"""Game class"""
+"""Game class - file to run the game"""
+
 import pygame
 import random
 from kid import Kid
