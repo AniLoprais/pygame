@@ -1,5 +1,5 @@
-| For information: how to run the game, see the requirements.txt file |
-| --------------------------------------------------------------------- |
+| Look at this file requirements.txt and run the game through game.py|
+| ------------------------------------------------------------------ |
 
 ![game](rm_img/start.png)
 
